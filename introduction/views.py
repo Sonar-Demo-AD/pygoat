@@ -101,6 +101,18 @@ def xss_lab(request):
             return render(request,'Lab/XSS/xss_lab.html', {'query': q})
     else:
         return redirect('login')
+
+def xss_lab_ad(request):
+    if request.user.is_authenticated:
+        q=request.GET.get('q','')
+        f=FAANG.objects.filter(company=q)
+        if f:
+            args={"company":f[0].company,"ceo":f[0].info_set.all()[0].ceo,"about":f[0].info_set.all()[0].about}
+            return render(request,'Lab/XSS/xss_lab.html',args)
+        else:
+            return render(request,'Lab/XSS/xss_lab.html', {'query': q})
+    else:
+        return redirect('login')
         
 
 def xss_lab2(request):
